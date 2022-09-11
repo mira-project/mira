@@ -1,1 +1,1 @@
-# mira
+# Installation of openBalena
