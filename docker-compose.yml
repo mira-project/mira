@@ -1,0 +1,36 @@
+version: "2.0"
+volumes:
+  key_file:
+  status:
+services:
+  murakami:
+    container_name: murakami
+    image: tungs/murakami:aarch64
+    network_mode: 'host'      
+
+  atlas-probe:
+    container_name: atlas_probe
+    image: jamesits/ripe-atlas:latest-arm64
+    restart: always
+    tty: true
+    cap_add:
+      - SYS_ADMIN
+      - CAP_NET_RAW #Ping
+      - CAP_CHOWN #Fix for chown in entrypoint-sh
+    tmpfs:
+     - /run
+     - /var/atlas-probe/run/
+     - /var/atlasdata/
+    volumes:
+     - key_file:/var/atlas-probe/etc/
+     - status:/var/atlas-probe/status/
+    network_mode: 'host'
+    labels:
+      io.balena.features.balena-socket: '1'
+      io.balena.features.firmware: '1'
+      io.balena.features.dbus: '1'
+      io.balena.features.sysfs: '1'
+      io.balena.features.procfs: '1'
+    environment:
+      - RXTXRPT=yes
+      
