@@ -1,1 +1,1 @@
-# Installation of openBalena
+### Go to Wiki for documentation
